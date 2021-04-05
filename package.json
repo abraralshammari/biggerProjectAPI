@@ -1,0 +1,14 @@
+{
+  "name": "biggerProjectAPI",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/abraralshammari/biggerProjectAPI.git",
+  "author": "abraralshammari <abrar.oalshammari@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "nodemon app.js"
+  }
+}
