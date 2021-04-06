@@ -34,4 +34,18 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+//one to many relationship
+// (one channel has many text) 
+db.Channel.hasMany(db.Message, {
+  foreingKey: "channelId",
+  as:  "messages",
+  allowNull:false,
+});
+
+db.Message.belongsTo(db.Channel, {
+  as:  "Channel",
+  foreingKey:"channelId",
+  allowNull: false
+});
+
 module.exports = db;
