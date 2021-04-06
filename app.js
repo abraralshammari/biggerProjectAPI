@@ -16,6 +16,7 @@ const channelRoutes = require("./API/channel/channelRoute");
 
 
 
+
 const app = express();
 //{=====================================================================}
 
@@ -33,6 +34,7 @@ app.use(userRoutes);
 //channel route
 app.use(channelRoutes);
 
+
 //// Handling errors middlewear
 app.use((err, req, res, next) => {
     res.status(err.status || 500).json({
@@ -42,7 +44,7 @@ app.use((err, req, res, next) => {
 
 const run = async () => {
     try {
-    //   await db.sequelize.sync({ alter: true });
+      // await db.sequelize.sync({ alter: true });
       await db.sequelize.sync();
       console.log("Connection to the database was successful!");
       await app.listen(8000, () => {
