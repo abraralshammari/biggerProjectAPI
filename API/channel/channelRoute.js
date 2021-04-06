@@ -3,11 +3,11 @@ const express = require("express");
 //router
 const router = express.Router();
 //create route
-const { channelCreate } = require("./channelController");
+const { addChannel } = require("./channelController");
 
 
 //create router
-router.post("/createchannel" , channelCreate);
+router.post("/addchannel" , addChannel);
 
 
 module.exports = router;
