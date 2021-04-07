@@ -7,8 +7,6 @@ const router = express.Router();
 
 //create route
 const {
-  addMessage,
-  //   channelAdd,
   fetchMessage,
   getMessageList,
   messageDelete,

@@ -124,9 +124,11 @@ exports.adminUser = async (req, res, next) => {
 
 // Delete user
 exports.deleteUser = async (req, res, next) => {
+  const { userId } = req.params;
   try {
-    if (req.user.id === Channel.admin) {
-      await req.user.destroy(req.body);
+    if (req.user.id === req.channel.admin) {
+      const user = await User.findByPk(userId);
+      await req.channel.removeUser(user);
       res.status(204).end();
     } else {
       res.status(401).json({ message: "Unautharized" });
@@ -135,21 +137,3 @@ exports.deleteUser = async (req, res, next) => {
     next(error);
   }
 };
-
-// delete user to cahnnel
-// exports.deleteUserToChannel = async (req, res, next) => {
-//   const { userId } = req.params;
-//   const { channelId } = req.params;
-//   try {
-//     const user = await User.findByPk(userId);
-//     const channel = await Channel.findByPk(channelId);
-//      {
-//       channel.deleteUser(user);
-//       res.status(201).json(user);
-//     } else {
-
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// };
