@@ -9,6 +9,9 @@ module.exports = (sequalize, DataTypes) => {
       type: DataTypes.STRING,
       uniqe: true,
     },
+    admin: {
+      type: DataTypes.INTEGER,
+    },
   });
   SequelizeSlugify.slugifyModel(Channel, {
     source: ["name"],

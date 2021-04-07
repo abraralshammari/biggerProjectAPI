@@ -15,6 +15,7 @@ const {
   channelUpdate,
   addUserToChannel,
   adminUser,
+  deleteUser,
 } = require("./channelController");
 
 // param middlewear
@@ -49,19 +50,26 @@ router.post(
 //UserChannel Route
 router.post(
   "/channel/:channelId/user/:userId",
-  // passport.authenticate("jwt" , {session:false}),
+  passport.authenticate("jwt", { session: false }),
   addUserToChannel
 );
 
 //Admin Route
 router.post(
-  "/channel/:channelId/admin",
+  "/channel/admin",
   passport.authenticate("jwt", { session: false }),
   adminUser
 );
 
 //  Channel delete
 router.delete("/channel/:channelId", channelDelete);
+
+// delete user
+router.delete(
+  "/channel/:channelId/user/:userId",
+  passport.authenticate("jwt", { session: false }),
+  deleteUser
+);
 
 //  Channel update
 router.put("/channel/:channelId", channelUpdate);

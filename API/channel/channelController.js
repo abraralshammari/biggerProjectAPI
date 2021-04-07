@@ -27,61 +27,6 @@ exports.getChannelList = async (req, res, next) => {
   }
 };
 
-//add channel
-exports.addChannel = async (req, res, next) => {
-  try {
-    const newChannel = await Channel.create(req.body);
-    res.status(201).json(newChannel);
-  } catch (error) {
-    next(error);
-  }
-};
-
-//add message
-exports.addMessage = async (req, res, next) => {
-  const { channelId } = req.params;
-  try {
-    req.body.ChannelId = channelId;
-    const newMessage = await Message.create(req.body);
-    res.status(201).json(newMessage);
-  } catch (error) {
-    next(error);
-  }
-};
-// add user
-exports.addUser = async (req, res, next) => {
-  const { userId } = req.params;
-  try {
-    req.body.UserId = userId;
-    const newUser = await User.create(req.body);
-    res.status(201).json(newUser);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// adding user to cahnnel
-exports.addUserToChannel = async (req, res, next) => {
-  const { userId } = req.params;
-  const { channelId } = req.params;
-  try {
-    const user = await User.findByPk(userId);
-    const channel = await Channel.findByPk(channelId);
-    channel.addUser(user);
-    res.status(201).json(user);
-  } catch (error) {
-    next(error);
-  }
-};
-// craete an admin
-exports.adminUser = async (req, res, next) => {
-  try {
-    const admin = await Channel.create({ userId: req.user.id });
-    res.status(201).json(admin);
-  } catch (error) {
-    next(error);
-  }
-};
 // update
 exports.channelUpdate = async (req, res) => {
   const { channelId } = req.params;
@@ -113,3 +58,98 @@ exports.channelDelete = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+//add channel
+exports.addChannel = async (req, res, next) => {
+  try {
+    const newChannel = await Channel.create(req.body);
+    res.status(201).json(newChannel);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//add message
+exports.addMessage = async (req, res, next) => {
+  const { channelId } = req.params;
+  try {
+    req.body.ChannelId = channelId;
+    const newMessage = await Message.create(req.body);
+    res.status(201).json(newMessage);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// add user
+exports.addUser = async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    req.body.UserId = userId;
+    const newUser = await User.create(req.body);
+    res.status(201).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// adding user to cahnnel
+exports.addUserToChannel = async (req, res, next) => {
+  const { userId } = req.params;
+  const { channelId } = req.params;
+  try {
+    const user = await User.findByPk(userId);
+    const channel = await Channel.findByPk(channelId);
+    if (req.user.id === channel.admin) {
+      channel.addUser(user);
+      res.status(201).json(user);
+    } else {
+      res.status(401).json({ message: "Unautharized" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+// craete an admin
+exports.adminUser = async (req, res, next) => {
+  try {
+    req.body.admin = req.user.id;
+    const newChannel = await Channel.create(req.body);
+    res.status(201).json(newChannel);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete user
+exports.deleteUser = async (req, res, next) => {
+  try {
+    if (req.user.id === Channel.admin) {
+      await req.user.destroy(req.body);
+      res.status(204).end();
+    } else {
+      res.status(401).json({ message: "Unautharized" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+// delete user to cahnnel
+// exports.deleteUserToChannel = async (req, res, next) => {
+//   const { userId } = req.params;
+//   const { channelId } = req.params;
+//   try {
+//     const user = await User.findByPk(userId);
+//     const channel = await Channel.findByPk(channelId);
+//      {
+//       channel.deleteUser(user);
+//       res.status(201).json(user);
+//     } else {
+
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// };

@@ -43,8 +43,8 @@ app.use((err, req, res, next) => {
 
 const run = async () => {
   try {
-    await db.sequelize.sync({ alter: true });
-    // await db.sequelize.sync();
+    // await db.sequelize.sync({ alter: true });
+    await db.sequelize.sync();
     console.log("Connection to the database was successful!");
     await app.listen(8000, () => {
       console.log("Server is runinng good");
