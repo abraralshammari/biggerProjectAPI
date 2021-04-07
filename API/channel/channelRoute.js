@@ -1,6 +1,6 @@
 //express
 const express = require("express");
-// const passport = require("passport");
+const passport = require("passport");
 
 //router
 const router = express.Router();
@@ -13,6 +13,8 @@ const {
   getChannelList,
   channelDelete,
   channelUpdate,
+  addUserToChannel,
+  adminUser,
 } = require("./channelController");
 
 // param middlewear
@@ -35,13 +37,27 @@ router.get("/channels", getChannelList);
 router.get("/channel", fetchChannel);
 
 //add router
-router.post("/addchannel", addChannel);
+router.post("/channel", addChannel);
 
 //Message Route
 router.post(
   "/channel/:channelId/message",
   // passport.authenticate("jwt" , {session:false}),
   addMessage
+);
+
+//UserChannel Route
+router.post(
+  "/channel/:channelId/user/:userId",
+  // passport.authenticate("jwt" , {session:false}),
+  addUserToChannel
+);
+
+//Admin Route
+router.post(
+  "/channel/:channelId/admin",
+  passport.authenticate("jwt", { session: false }),
+  adminUser
 );
 
 //  Channel delete

@@ -1,4 +1,4 @@
-const { Channel, Message } = require("../../db/models");
+const { Channel, Message, User } = require("../../db/models");
 
 // get/fetch Channel
 exports.fetchChannel = async (channelId, next) => {
@@ -39,15 +39,49 @@ exports.addChannel = async (req, res, next) => {
 
 //add message
 exports.addMessage = async (req, res, next) => {
+  const { channelId } = req.params;
   try {
-    req.body.channelId = req.channel.id;
+    req.body.ChannelId = channelId;
     const newMessage = await Message.create(req.body);
     res.status(201).json(newMessage);
   } catch (error) {
     next(error);
   }
 };
+// add user
+exports.addUser = async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    req.body.UserId = userId;
+    const newUser = await User.create(req.body);
+    res.status(201).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+};
 
+// adding user to cahnnel
+exports.addUserToChannel = async (req, res, next) => {
+  const { userId } = req.params;
+  const { channelId } = req.params;
+  try {
+    const user = await User.findByPk(userId);
+    const channel = await Channel.findByPk(channelId);
+    channel.addUser(user);
+    res.status(201).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+// craete an admin
+exports.adminUser = async (req, res, next) => {
+  try {
+    const admin = await Channel.create({ userId: req.user.id });
+    res.status(201).json(admin);
+  } catch (error) {
+    next(error);
+  }
+};
 // update
 exports.channelUpdate = async (req, res) => {
   const { channelId } = req.params;

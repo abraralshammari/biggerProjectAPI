@@ -34,16 +34,6 @@ router.get("/messages", getMessageList);
 // Get Message
 router.get("/message", fetchMessage);
 
-//add router
-router.post("/addmessage", addMessage);
-
-//channel Route
-// router.post(
-//   "/message/:channelId/channel",
-//   // passport.authenticate("jwt" , {session:false}),
-//   channelAdd
-// );
-
 //  Message delete
 router.delete("/message/:messageId", messageDelete);
 

@@ -14,40 +14,13 @@ exports.fetchMessage = async (messageId, next) => {
 exports.getMessageList = async (req, res, next) => {
   try {
     const mesage = await Message.findAll({
-      attributes: { exclude: ["channelId", "createdAt", "updatedAt"] },
-      include: {
-        model: Channel,
-        as: "Channel",
-        attributes: ["id"],
-      },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     res.status(200).json(mesage);
   } catch (error) {
     next(error);
   }
 };
-
-//add message
-exports.addMessage = async (req, res, next) => {
-  try {
-    // req.body.channelId = req.channel.id;
-    const newMessage = await Message.create(req.body);
-    res.status(201).json(newMessage);
-  } catch (error) {
-    next(error);
-  }
-};
-
-//add channel
-// exports.addChannel = async (req, res, next) => {
-//   try {
-//     // req.body.messageId = req.message.id;
-//     const newChannel = await Channel.create(req.body);
-//     res.status(201).json(newChannel);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 // update
 exports.messageUpdate = async (req, res) => {
