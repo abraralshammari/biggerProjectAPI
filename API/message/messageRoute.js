@@ -1,6 +1,6 @@
 //express
 const express = require("express");
-// const passport = require("passport");
+const passport = require("passport");
 
 //router
 const router = express.Router();
@@ -11,6 +11,9 @@ const {
   getMessageList,
   messageDelete,
   messageUpdate,
+  addUserToMessage,
+  adminUser,
+  deleteUser,
 } = require("./messageController");
 
 // param middlewear
@@ -39,3 +42,24 @@ router.delete("/message/:messageId", messageDelete);
 router.put("/message/:messageId", messageUpdate);
 
 module.exports = router;
+
+//UserMessage Route
+router.post(
+  "/message/:messageId/user/:userId",
+  passport.authenticate("jwt", { session: false }),
+  addUserToMessage
+);
+
+//Admin Route
+router.post(
+  "/message/admin",
+  passport.authenticate("jwt", { session: false }),
+  adminUser
+);
+
+// delete user
+router.delete(
+  "/message/:messageId/user/:userId",
+  passport.authenticate("jwt", { session: false }),
+  deleteUser
+);

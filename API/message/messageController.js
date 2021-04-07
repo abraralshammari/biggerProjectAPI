@@ -1,4 +1,4 @@
-const { Message, Channel } = require("../../db/models");
+const { Message, Channel, User } = require("../../db/models");
 
 //Fetch Message
 exports.fetchMessage = async (messageId, next) => {
@@ -51,5 +51,63 @@ exports.messageDelete = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+// add user
+exports.addUser = async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    req.body.UserId = userId;
+    const newUser = await User.create(req.body);
+    res.status(201).json(newUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// adding user to message
+exports.addUserToMessage = async (req, res, next) => {
+  const { userId } = req.params;
+  const { messageId } = req.params;
+  try {
+    messageId;
+    const user = await User.findByPk(userId);
+    const message = await Message.findByPk(messageId);
+    if (req.user.id === message.admin) {
+      message.addUser(user);
+      res.status(201).json(user);
+    } else {
+      res.status(401).json({ message: "Unautharized" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+// craete an admin
+exports.adminUser = async (req, res, next) => {
+  try {
+    req.body.admin = req.user.id;
+    const newMessage = await Message.create(req.body);
+    res.status(201).json(newMessage);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete user
+exports.deleteUser = async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    if (req.user.id === req.message.admin) {
+      const user = await User.findByPk(userId);
+      await req.message.removeUser(user);
+      res.status(204).end();
+    } else {
+      res.status(401).json({ message: "Unautharized" });
+    }
+  } catch (error) {
+    next(error);
   }
 };
