@@ -8,7 +8,7 @@ const router = express.Router();
 //create route
 const {
   addMessage,
-  channelAdd,
+  //   channelAdd,
   fetchMessage,
   getMessageList,
   messageDelete,
@@ -38,11 +38,11 @@ router.get("/message", fetchMessage);
 router.post("/addmessage", addMessage);
 
 //channel Route
-router.post(
-  "/message/:channelId/channel",
-  // passport.authenticate("jwt" , {session:false}),
-  channelAdd
-);
+// router.post(
+//   "/message/:channelId/channel",
+//   // passport.authenticate("jwt" , {session:false}),
+//   channelAdd
+// );
 
 //  Message delete
 router.delete("/message/:messageId", messageDelete);

@@ -39,15 +39,15 @@ exports.addMessage = async (req, res, next) => {
 };
 
 //add channel
-exports.addChannel = async (req, res, next) => {
-  try {
-    // req.body.messageId = req.message.id;
-    const newChannel = await Channel.create(req.body);
-    res.status(201).json(newChannel);
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.addChannel = async (req, res, next) => {
+//   try {
+//     // req.body.messageId = req.message.id;
+//     const newChannel = await Channel.create(req.body);
+//     res.status(201).json(newChannel);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 // update
 exports.messageUpdate = async (req, res) => {
