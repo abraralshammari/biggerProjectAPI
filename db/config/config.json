@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "abrar",
-    "password": null,
-    "database": "biggerProject_db",
+    "username": "postgres",
+    "password": "Layla",
+    "database": "biggerproject_db",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false
