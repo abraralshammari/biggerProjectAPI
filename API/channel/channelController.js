@@ -9,7 +9,6 @@ exports.fetchChannel = async (channelId, next) => {
     next(error);
   }
 };
-
 //Get Channel List
 exports.getChannelList = async (req, res, next) => {
   try {
@@ -26,7 +25,6 @@ exports.getChannelList = async (req, res, next) => {
     next(error);
   }
 };
-
 // update
 exports.channelUpdate = async (req, res) => {
   const { channelId } = req.params;
