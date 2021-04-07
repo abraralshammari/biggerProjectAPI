@@ -30,7 +30,7 @@ exports.getMessageList = async (req, res, next) => {
 //add message
 exports.addMessage = async (req, res, next) => {
   try {
-    req.body.channelId = req.channel.id;
+    // req.body.channelId = req.channel.id;
     const newMessage = await Message.create(req.body);
     res.status(201).json(newMessage);
   } catch (error) {
